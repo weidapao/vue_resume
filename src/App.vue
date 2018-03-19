@@ -51,6 +51,7 @@ main{
   flex: 1;
   height: 100vh;
   padding: 0 240px;
+  overflow: auto;
 }
 .resumeEditor{
   width: 40em;
