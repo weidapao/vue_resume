@@ -13,7 +13,7 @@ export default {
 <style>
   #resumePreview{
     color: blue;
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
     min-height: 100px;
   }
 </style>
