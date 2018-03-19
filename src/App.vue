@@ -19,7 +19,7 @@ import './assets/reset.scss'
 export default {
   name: 'App',
   data:function(){
-    return {firstword:'加油'}
+    return {isActive:0}
   },
   components:{
     Topbar,ResumeEditor,ResumePreview

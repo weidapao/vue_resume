@@ -2,45 +2,34 @@
   <div id="resumeEditor">
     <div class="resumebar">
       <ul>
-        <li class="active">
+        <li v-for="i in [0,1,2,3,4,5]" 
+            v-bind:class="{ active: isActive==i }"
+            v-on:click="isActive = i" >
           <svg class="icon" aria-hidden="true" >
-            <use xlink:href="#icon-idcard"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-work"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-school"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-heart"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-award"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-tel02"></use>
+            <use v-bind:xlink:href="'#'+`${iconArray[i]}`"></use>
           </svg>
         </li>
       </ul>
+      
     </div>
-    
+    <ol>
+      <li v-bind:class="{ active: isActive==i }"
+          v-for="i in [0,1,2,3,4,5]">
+        tab{{i}}
+      </li>
+    </ol>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ResumeEditor'
+  name: 'ResumeEditor',
+  data:function(){
+    return {
+      isActive:0,
+      iconArray:['icon-idcard','icon-work','icon-school','icon-heart','icon-award','icon-tel02'],
+    }
+  },
 }
 </script>
 
@@ -48,13 +37,21 @@ export default {
   #resumeEditor{
     min-height: 100px;
     display: flex;
+    >ol>li{
+      display: none;
+      &.active{
+        display: block;
+      }
+    }
     .resumebar{
       background: black;
       width: 80px;
-      
       >ul>li{
         text-align: center;
         padding: 8px 0;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        height: 48px;  
         > svg{
           width: 24px;
           height: 24px;
