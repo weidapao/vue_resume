@@ -10,7 +10,6 @@
           </svg>
         </li>
       </ul>
-      
     </div>
     <ol>
       <li v-bind:class="{ active: isActive==i }"
