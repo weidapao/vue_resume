@@ -1,12 +1,15 @@
 <template>
   <div id="resumePreview">
-    I am resumePreview
+    <h1>{{resume.person.name}}</h1>
+    <p>{{resume.person.sex}}</p>
+    <p>{{resume.person.age}}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ResumePreview'
+  name: 'ResumePreview',
+  props:['resume'],
 }
 </script>
 

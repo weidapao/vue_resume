@@ -2,8 +2,8 @@
   <div id="app">
     <Topbar class="topbar"/>
     <main>
-      <ResumeEditor class="resumeEditor"/>
-      <ResumePreview class="resumepreview"/>
+      <ResumeEditor :resume="resume" class="resumeEditor"/>
+      <ResumePreview :resume="resume" class="resumepreview"/>
     </main>
   </div>
 </template>
@@ -19,7 +19,39 @@ import './assets/reset.scss'
 export default {
   name: 'App',
   data:function(){
-    return {isActive:0}
+    return {
+      resume:{
+        person:{
+          name:'',
+          sex:'',
+          age:'',
+        },
+        workHistory:[{
+          company:'',
+          location:'',
+          worktime:'',
+        }],
+        education:[{
+          school:'',
+          degree:'',
+        }],
+        project:[{
+          pname:'',
+          pduty:'',
+          pdesc:'',
+        }],
+        award:[{
+          aname:'',
+          ajibie:'',
+        }],
+        contact:[{
+          tel:'',
+          wechat:'',
+          qq:'',
+          mail:'',
+        }]
+      }
+    }
   },
   components:{
     Topbar,ResumeEditor,ResumePreview
