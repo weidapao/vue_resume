@@ -14,9 +14,13 @@
   },
   "dependencies": {
     "element-ui": "^2.2.2",
+    "leancloud": "^0.0.0",
+    "leancloud-storage": "^3.6.1",
     "normalize.css": "^8.0.0",
+    "object-path": "^0.11.4",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

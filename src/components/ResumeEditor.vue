@@ -1,89 +1,105 @@
 <template>
   <div id="resumeEditor">
-    <div class="resumebar">
-      <ul>
-        <li v-for="i in [0,1,2,3,4,5]" 
-            v-bind:class="{ active: isActive==i }"
-            v-on:click="isActive = i" >
-          <svg class="icon" aria-hidden="true" >
-            <use v-bind:xlink:href="'#'+`${iconArray[i]}`"></use>
+    <nav>
+      <ol>
+        <li v-for="(item,index) in resume.config" :class="{active: item.field === selected}" @click="selected = item.field">
+          <svg class="icon">
+            <use :xlink:href="`#icon-${item.icon}`"></use>
           </svg>
         </li>
-      </ul>
-    </div>
-    <ol>
-      <li v-bind:class="{ active: isActive==0 }">
-        <h2>个人信息</h2>
-        <el-form :label-position="labelPosition" label-width="80px">
-          <el-form-item label="姓名">
-            <el-input v-model="resume.person.name"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <el-input v-model="resume.person.sex"></el-input>
-          </el-form-item>
-          <el-form-item label="年龄">
-            <el-input v-model="resume.person.age"></el-input>
-          </el-form-item>
-        </el-form>
-      </li>
-      <li v-bind:class="{ active: isActive==1 }">
-        <Items title="工作经历" v-bind:items="resume.workHistory" :labels="{company:'公司',location:'地点',worktime:'入职时间'}" /> 
-      </li>
-      <li v-bind:class="{ active: isActive==2 }">
-        <Items title="教育经历" v-bind:items="resume.education" :labels="{school:'学校',degree:'学历'}" /> 
-      </li>
-      <li v-bind:class="{ active: isActive==3 }">
-        <Items title="项目经历" v-bind:items="resume.project" :labels="{pname:'项目名称',pduty:'项目职责',pdesc:'项目描述'}" />
-      </li>
-      <li v-bind:class="{ active: isActive==4 }">
-        <Items title="获奖情况" v-bind:items="resume.award" :labels="{aname:'奖项名称',ajibie:'获奖等级'}" />
-      </li>
-      <li v-bind:class="{ active: isActive==5 }">
-        <h2>联系方式</h2>
-        <el-form label-position="top" label-width="80px">
-          <el-form-item label="电话">
-            <el-input v-model="resume.contact.tel"></el-input>
-          </el-form-item>
-          <el-form-item label="微信">
-            <el-input v-model="resume.contact.wechat"></el-input>
-          </el-form-item>
-          <el-form-item label="QQ">
-            <el-input v-model="resume.contact.qq"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱">
-            <el-input v-model="resume.contact.mail"></el-input>
-          </el-form-item>
-        </el-form>
+      </ol>
+    </nav>
+    <ol class="panels">
+      <li v-for="item in resume.config" v-show="item.field === selected">
+        <div v-if="resume[item.field] instanceof Array">
+          <div class="subitem" v-for="(subitem, i) in resume[item.field]">
+            <div class="resumeField" v-for="(value,key) in subitem">
+              <label> {{Caonima[item.field][key]||11}} </label>
+              <input type="text" :value="value" @input="changeResumeField(`${item.field}.${i}.${key}`, $event.target.value)">
+            </div>
+            <i @click="delResumeSubfield(`${item.field}.${i}`)" class="el-icon-error"></i>
+            <hr>
+          </div>
+          <el-button  v-on:click="addResumeSubfield(item.field)" type="primary">增加</el-button>
+        </div>
+        <div v-else class="resumeField" v-for="(value,key) in resume[item.field]">
+          <label> {{Caonima['profile'][key]}} </label>
+          <input type="text" :value="value" @input="changeResumeField(`${item.field}.${key}`, $event.target.value)">
+        </div>
       </li>
     </ol>
   </div>
 </template>
+
 <script>
-import Items from './Items'
-export default {
-  name: 'ResumeEditor',
-  components:{Items},
-  props:['resume'],
-  data:function(){
-    return {
-      isActive:0,
-      iconArray:['icon-idcard','icon-work','icon-school','icon-heart','icon-award','icon-tel02'],
-      labelPosition:'top',
-    }
-  },
-  methods: {
-    
+  export default {
+    name: 'ResumeEditor',
+    computed: {
+      selected:{
+        get(){
+          return this.$store.state.selected
+        },
+        set(value){
+          return this.$store.commit('switchTab', value)
+        }
+      },
+      resume (){
+        return this.$store.state.resume
+      },
+      Caonima (){
+        return this.$store.state.Caonima
+      }
+    },
+    methods: {
+      changeResumeField(path, value){
+        this.$store.commit('updateResume',{
+          path,
+          value
+        })
+      },
+      addResumeSubfield (field) {
+          this.$store.commit('addResumeSubfield',{field})
+      },
+      delResumeSubfield(path){
+          // 『 BUG - 发现如果删完整个人都不好了 』
+          this.$store.commit('delResumeSubfield',{path})
+      },
+      usb(aaa,bbb){
+        this.$store.commit('fuck',aaa,bbb)
+      }
+    }  
   }
-}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   #resumeEditor{
-    min-height: 100px;
+    background:#ffffff;
+    box-shadow:0 1px 3px 0 rgba(0,0,0,0.25);
     display: flex;
-    >ol{
-      flex: 1;
-      .container{
+    flex-direction: row;
+    overflow: auto;
+    > nav{
+      width: 80px;
+      background: black;
+      color: white;
+      > ol {
+        > li{
+          height: 48px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 16px;
+          margin-bottom: 16px;
+          &.active{
+            background: white;
+            color: black;
+          }
+        }
+      }
+    }
+    > .panels{
+      flex-grow: 1;
+      .subitem{
         position: relative;
         .el-icon-error{
           position: absolute;
@@ -91,39 +107,36 @@ export default {
           top: 0;
         }
       }
+      > li {
+        height: 100%;
+        overflow: auto;
+        padding: 24px;
+      }
     }
-    >ol>li{
-      display: none;
-      padding: 16px 16px;
-      height: 100%;
+    svg.icon{
+      width: 24px; // 原设计稿 32px 不好看，改成 24px
+      height: 24px;
+    }
+  }
+  ol{
+    list-style: none;
+  }
+  .resumeField{
+    > label{
+      display: block;
+    }
+    input[type=text]{
+      margin: 16px 0;
+      border: 1px solid #ddd;
+      box-shadow:inset 0 1px 3px 0 rgba(0,0,0,0.25);
       width: 100%;
-      overflow: auto;
-      &.active{
-        display: block;
-      }
-      
+      height: 40px;
+      padding: 0 8px;
     }
-    .resumebar{
-      background: black;
-      width: 80px;
-      >ul>li{
-        text-align: center;
-        padding: 8px 0;
-        margin-top: 16px;
-        margin-bottom: 16px;
-        height: 48px;  
-        > svg{
-          width: 24px;
-          height: 24px;
-          fill: white;
-        }
-        &.active{
-          background: white;
-          >svg{
-            fill: black;
-          }
-        }
-      }
-    }
+  }
+  hr{
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 24px 0;
   }
 </style>

@@ -1,104 +1,84 @@
 <template>
-  <div id="app">
-    <Topbar class="topbar"/>
-    <main>
-      <ResumeEditor :resume="resume" class="resumeEditor"/>
-      <ResumePreview :resume="resume" class="resumepreview"/>
-    </main>
+  <div>
+    <div class=page>
+      <header>
+        <Topbar/>
+      </header>
+      <main>
+        <ResumeEditor/>
+        <ResumePreview/>
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import 'normalize.css'
-import Topbar from './components/Topbar'
-import ResumeEditor from './components/ResumeEditor'
-import ResumePreview from './components/ResumePreview'
+  import 'normalize.css/normalize.css'
+  import './assets/reset.css'
 
-import './assets/reset.scss'
+  import Topbar from './components/Topbar'
+  import ResumeEditor from './components/ResumeEditor'
+  import ResumePreview from './components/ResumePreview'
+  import icons from './assets/icons'
 
-export default {
-  name: 'App',
-  data:function(){
-    return {
-      resume:{
-        person:{
-          name:'',
-          sex:'',
-          age:'',
-        },
-        workHistory:[{
-          company:'',
-          location:'',
-          worktime:'',
-        }],
-        education:[{
-          school:'',
-          degree:'',
-        }],
-        project:[{
-          pname:'',
-          pduty:'',
-          pdesc:'',
-        }],
-        award:[{
-          aname:'',
-          ajibie:'',
-        }],
-        contact:[{
-          tel:'',
-          wechat:'',
-          qq:'',
-          mail:'',
-        }]
+  import store from './store/index'
+  import AV from './lib/leancloud'
+  import getAVUser from './lib/getAVUser'
+
+  export default {
+    name: 'app',
+    store,
+    components: { Topbar, ResumeEditor, ResumePreview},
+    created() {
+      document.body.insertAdjacentHTML('afterbegin', icons) //
+      let state = localStorage.getItem('state')
+      if(state){
+        state = JSON.parse(state) 
       }
+      this.$store.commit('initState', state)
+      this.$store.commit('setUser', getAVUser())
+
     }
-  },
-  components:{
-    Topbar,ResumeEditor,ResumePreview
   }
-}
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #ECEEF3;
-}
-.icon {
-    width: 1em; height: 1em;
-    vertical-align: -0.15em;
+<style lang="scss">
+  .page{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #EAEBEC;
+    >main{
+      flex-grow: 1;  
+    }
+    >main{
+      min-width: 1024px;
+      max-width: 1440px;
+      margin-top: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
+      width: 100%; /* 试试不加这句会怎样 */
+      align-self: center;
+    }
+  }
+
+
+  #resumeEditor{
+    min-width: 35%;
+    background: #444;
+  }
+  #resumePreview{
+    flex-grow: 1;
+    margin-left: 16px;
+    background: #777;
+  }
+  svg.icon{
+    height: 1em;
+    width: 1em;
     fill: currentColor;
-    overflow: hidden;
-}
-.topbar{
-  /* background: red; */
-}
-main{
-  display: flex;
-  flex: 1;
-  height: 100vh;
-  padding: 0 240px;
-  overflow: auto;
-}
-.resumeEditor{
-  width: 40em;
-  margin: 16px 8px 16px 0;
-  background: white;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.resumepreview{
-  flex: 1;
-  margin: 16px 16px 16px 8px;
-  background: white;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-}
+    vertical-align: -0.1em;
+    font-size:16px;
+  }
 </style>
