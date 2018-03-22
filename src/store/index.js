@@ -45,7 +45,7 @@ export default new Vuex.Store({
       },
       workHistory: [{
         worktime:'2016.7-2018.3',
-        company:'南京莱斯信息技术股份有限公司',
+        company:'莱斯公司',
         details:'软件开发工程师',
       }
        ],
