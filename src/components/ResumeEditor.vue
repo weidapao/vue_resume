@@ -23,7 +23,7 @@
           <el-button  v-on:click="addResumeSubfield(item.field)" type="primary">增加</el-button>
         </div>
         <div v-else class="resumeField" v-for="(value,key) in resume[item.field]">
-          <label> {{Caonima['profile'][key]}} </label>
+          <label> {{Caonima['profile'][key]||Caonima['contacts'][key]}} </label>
           <input type="text" :value="value" @input="changeResumeField(`${item.field}.${key}`, $event.target.value)">
         </div>
       </li>

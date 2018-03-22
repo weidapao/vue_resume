@@ -12,27 +12,21 @@ export default new Vuex.Store({
       id: '',
       username: ''
     },
-    Caonima:{'profile':{'name':'姓名','city':'城市','title':'工作岗位','birthday':'出生年月'},
-    'workHistory':{'company':'公司','details':'公司细节'},
-    'education':{'school':'学校','details':'学校细节',},
-    'projects':{'name':'项目','details':'项目细节',},
-    'awards':{'name':'获奖','details':'获奖细节',},
-    'contacts':{'contact':'联系方式','details':'联系方式细节',}},
+    Caonima:{'profile':{'name':'姓名','city':'座右铭','title':'籍贯','birthday':'出生年月','sex':'性别','marray':'婚姻状况'},
+    'workHistory':{'worktime':'工作时间','company':'公司名称','details':'岗位'},
+    'education':{'studytime':'时间','school':'学校','details':'专业','schooldesc':'在校经历'},
+    'projects':{'ptime':'项目时间','name':'项目名称','role':'项目角色','job':'主要工作'},
+    'awards':{'name':'获奖名称'},
+    'contacts':{'tel':'电话','qq':'QQ','wechat':'微信','mail':'邮箱'}},
     resumeConfig: [
-        {field: 'profile', icon: 'id', keys: ['name', 'city', 'title', 'birthday']},
-        {field: 'workHistory', icon: 'work', keys: ['company', 'details']},
-        {field: 'education', icon: 'book', keys: ['school', 'details']},
-        {field: 'projects', icon: 'heart', keys: ['name', 'details']},
-        {field: 'awards', icon: 'cup', keys: ['name', 'details']},
-        {field: 'contacts', icon: 'phone', keys: ['contact', 'details']}
+        {field: 'profile', icon: 'id', keys: ['name', 'city', 'sex','title', 'birthday','marray']},
+        {field: 'workHistory', icon: 'work', keys: ['worktime','company', 'details']},
+        {field: 'education', icon: 'book', keys: ['studytime','school', 'details','schooldesc']},
+        {field: 'projects', icon: 'heart', keys: ['ptime','name','role', 'job']},
+        {field: 'awards', icon: 'cup', keys: ['name']},
+        {field: 'contacts', icon: 'phone', keys: ['tel', 'qq','wechat','mail']}
     ],
     resume: {
-      Caonima:{'profile':{'name':'姓名','city':'城市','title':'工作岗位','birthday':'出生年月'},
-      'workHistory':{'company':'公司','details':'公司细节'},
-      'education':{'school':'学校','details':'学校细节',},
-      'projects':{'name':'项目','details':'项目细节',},
-      'awards':{'name':'获奖','details':'获奖细节',},
-      'contacts':{'contact':'联系方式','details':'联系方式细节',}},
       config: [
         { field: 'profile', icon: 'id' },
         { field: 'workHistory', icon: 'work' },
@@ -42,31 +36,29 @@ export default new Vuex.Store({
         { field: 'contacts', icon: 'phone' },
       ],
       profile: {
-        name: 'dajiba',
-        city: '大城市铁岭',
-        title: '首席装逼师',
-        birthday: '1990-01-01'
+        name: '大宝',
+        city: '能死在我的脚下，是上天赐予你的恩赐',
+        sex:'男',
+        title: '江苏扬州',
+        birthday: '1993-12-20',
+        marray:'未婚',
       },
-      workHistory: [
-        {
-          company: '鸡飞狗跳公司', details: `公司总部设在XXXX区，先后在北京、上海成立分公司。专注于移动XXX领域，主打产品XXXXX，它将资讯、报纸、杂志、图片、微信等众多内容，按照用户意愿聚合到一起，实现深度个性化 定制。
-我的主要工作如下:
-1. 完成既定产品需求。
-2. 修复 bug。`
-        },
-      ],
-      education: [
-        { school: '黄志诚警官大学', details: '本科' },
+      workHistory: [{
+        worktime:'2016.7-2018.3',
+        company:'南京莱斯信息技术股份有限公司',
+        details:'软件开发工程师',
+      }
+       ],
+      education: [{'studytime':'2012.9-2016-7','school':'南京邮电大学','details':'信息工程',
+      'schooldesc':'2016届南邮本科，担任南邮爱心社办公室副部长，负责新闻稿、横幅撰写工作，多次参加义工活动，照顾孤寡老人。'}
       ],
       projects: [
-        { name: 'project A', details: '文字' },
+        {'ptime':'2016.8-2017.12','name':'中国电科集团人力资源项目','role':'分系统设计师','job':'端茶倒水点外卖，帮忙拿快递，请同事大保健。'}
       ],
-      awards: [
-        { name: '再来十瓶', details: '连续十次获得「再来一瓶」奖励' },
+      awards: [{name:'社区福利彩票五等奖'},{name:'康师傅冰红茶再来一瓶'},{name:'时代周刊封面人物'}
       ],
-      contacts: [
-        { contact: 'phone', details: '13812345678' },
-      ],
+      contacts:
+        { tel: '18362973879', qq: '1226393396',wechat:'mayun',mail:'1226393396' },
     }
   },
   mutations: {
@@ -98,14 +90,5 @@ export default new Vuex.Store({
         // 『删除哦』
         objectPath.del(state.resume, path);
     },
-    fuck(state, aaa,bbb){
-      var xxx={'profile':{'name':'姓名','city':'城市','title':'工作岗位','birthday':'出生年月'},
-      'workHistory':{'company':'公司','details':'公司细节'},
-      'education':{'school':'学校','details':'学校细节',},
-      'projects':{'name':'项目','details':'项目细节',},
-      'awards':{'name':'获奖','details':'获奖细节',},
-      'contacts':{'contact':'联系方式','details':'联系方式细节',}}
-      return xxx['profile']['title'];
-    }
   }
 })
