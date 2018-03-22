@@ -83,7 +83,7 @@
       <div class="container">
          <div class="title">
             <svg class="icon">
-              <use :xlink:href="`#icon-heart`"></use>
+              <use :xlink:href="`#icon-award`"></use>
             </svg>
             <span>获奖情况</span>
           </div>
